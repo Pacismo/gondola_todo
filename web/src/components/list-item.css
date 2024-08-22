@@ -1,0 +1,40 @@
+div.list-item {
+    margin: 4pt;
+
+    display: grid;
+    grid-template-columns: 32pt auto;
+    gap: 4pt;
+    transition: 200ms ease-in all;
+}
+
+div.list-item:hover {
+    grid-template-columns: 36pt auto;
+    margin-right: 0;
+    transition: 200ms ease-out all;
+}
+
+div.list-item > .tickbox {
+    grid-column: 1;
+    height: 100%;
+    transition: 200ms ease-in color;
+}
+
+div.list-item > .tickbox:hover {
+    color: aquamarine;
+    transition: 200ms ease-out color;
+}
+
+div.list-item > .details {
+    grid-column: 2;
+
+    border-radius: 4px;
+    background-color: white;
+    color: black;
+    margin: 0 4pt;
+    padding: 8pt;
+}
+
+div.list-item > .details > h2 {
+    font-size: 12pt;
+    font-weight: bold;
+}

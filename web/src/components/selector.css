@@ -1,0 +1,52 @@
+div.selector {
+    position: sticky;
+    top: 0;
+
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    background-color: black;
+    padding: 1rem;
+
+    border-bottom: 1px solid white;
+}
+
+button.option {
+    font-size: 16pt;
+    font-weight: bold;
+    border: 2px solid white;
+    border-radius: 24pt;
+    margin: 4pt;
+    padding: 4pt 8pt;
+
+    transition: 200ms ease-in all;
+}
+
+button.option:first-child {
+    margin-left: 0;
+}
+
+button.option:last-child {
+    margin-right: 0;
+}
+
+button.option.selected {
+    background-color: white;
+    color: black;
+
+    transition: 200ms ease-in all;
+}
+
+button.option:hover {
+    background-color: gray;
+    color: black;
+
+    transition: 200ms ease-out all;
+}
+
+button.option.selected:hover {
+    background-color: lightgray;
+    color: black;
+
+    transition: 200ms ease-out all;
+}
