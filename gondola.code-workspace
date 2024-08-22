@@ -1,0 +1,79 @@
+{
+    "folders": [
+        {
+            "name": "Root",
+            "path": "."
+        },
+        {
+            "name": "API",
+            "path": "api/"
+        },
+        {
+            "name": "Web",
+            "path": "web/"
+        }
+    ],
+    "settings": {
+        "[typescript]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode",
+            "editor.formatOnSave": true
+        },
+        "[typescriptreact]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode",
+            "editor.formatOnSave": true
+        },
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": "always"
+        },
+        "commentAnchors.tags.anchors": {
+            "ANCHOR": {
+                "iconColor": "default",
+                "highlightColor": "#A8C023",
+                "scope": "file"
+            },
+            "TODO": {
+                "iconColor": "blue",
+                "highlightColor": "#3ea8ff",
+                "scope": "workspace"
+            },
+            "FIXME": {
+                "iconColor": "red",
+                "highlightColor": "#F44336",
+                "scope": "workspace"
+            },
+            "STUB": {
+                "iconColor": "purple",
+                "highlightColor": "#BA68C8",
+                "scope": "file"
+            },
+            "NOTE": {
+                "iconColor": "orange",
+                "highlightColor": "#FFB300",
+                "scope": "file"
+            },
+            "REVIEW": {
+                "iconColor": "green",
+                "highlightColor": "#64DD17",
+                "scope": "workspace"
+            },
+            "SECTION": {
+                "iconColor": "blurple",
+                "highlightColor": "#896afc",
+                "scope": "workspace",
+                "behavior": "region"
+            },
+            "LINK": {
+                "iconColor": "#2ecc71",
+                "highlightColor": "#2ecc71",
+                "scope": "workspace",
+                "behavior": "link"
+            },
+            "HACK": {
+                "iconColor": "#5588ff",
+                "highlightColor": "#5588ff",
+                "scope": "file",
+                "behavior": "link"
+            }
+        }
+    }
+}
