@@ -1,46 +1,10 @@
-from django.http import HttpResponse, HttpRequest, Http404
+from django.http import HttpResponse, HttpRequest, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from json import JSONEncoder
+from json import JSONEncoder, JSONDecoder
 from .models import ToDoItem, item_from_json
 
 # Create your views here.
-
-sample_tasks: list[dict] = [
-    {
-        'task_name': "Do laundry",
-        'task_description': "Clean, dry, and fold clothes",
-        'task_state': "TODO",
-        'id': 0,
-    },
-    {
-        'task_name': "Iron shirts",
-        'task_description': "Iron suit and cotton pants",
-        'task_state': "TODO",
-        'id': 1,
-    },
-    {
-        'task_name': "Refill cat feeder",
-        'task_description': "Buy new cat food and fill automatic feeder",
-        'task_state': "DONE",
-        'id': 2,
-    },
-    {
-        'task_name': "Build IKEA desk",
-        'task_description': "Desk arrives 10/24",
-        'task_state': "TODO",
-        'id': 3,
-    },
-    {
-        'task_name': "Update website",
-        'task_description': "Add recent projects",
-        'task_state': "DONE",
-        'id': 4,
-    },
-]
-
-def index(request: HttpRequest):
-    return HttpResponse("Hello")
 
 @csrf_exempt
 def get_tasks(request: HttpRequest):
@@ -54,11 +18,44 @@ def get_tasks(request: HttpRequest):
 @require_POST
 @csrf_exempt
 def add_task(request: HttpRequest):
-    task = item_from_json(request.body)
+    if request.content_type != "application/json":
+        return HttpResponseBadRequest("Expected JSON body")
+
+    task = item_from_json(str(request.body, 'utf-8'))
     task.save()
     return HttpResponse("Added task %s successfully!"%task)
 
 @require_POST
 @csrf_exempt
-def remove_task(request: HttpRequest, task_id: int):
+def mark_task(request: HttpRequest):
+    if request.content_type != "application/json":
+        return HttpResponseBadRequest("Expected JSON body")
+
+    params = JSONDecoder().decode(str(request.body, 'utf-8'))
+    tid = params.get('id')
+    state = params.get('task_state')
+
+    if tid is None or state is None:
+        return HttpResponseBadRequest("Expected task ID and new state in body")
+
+    if state != "TODO" and state != "DONE":
+        return HttpResponseBadRequest("Expected state to be either \"TODO\" or \"DONE\"")
+
+    task = ToDoItem.objects.get(task_id=tid)
+    task.task_state = state == "DONE"
+    task.save()
+
+    return HttpResponse("Successfully update task %s"%task)
+
+@require_POST
+@csrf_exempt
+def remove_task(request: HttpRequest):
+    if request.content_type == "application/json":
+        tid: int | None = JSONDecoder().decode(str(request.body, 'utf-8')).get('id')
+        if tid is None:
+            return HttpResponseBadRequest("Expected an ID, got None")
+
+        ToDoItem.objects.get(task_id=tid).delete()
+
+        return HttpResponse("Successfully removed task")
     pass

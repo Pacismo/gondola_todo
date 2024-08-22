@@ -20,10 +20,10 @@ class ToDoItem(models.Model):
             'id': self.task_id,
             'task_name': self.task_name,
             'task_description':self.task_description,
-            'task_state': self.task_state
+            'task_state': "DONE" if self.task_state else "TODO"
         }
 
 def item_from_json(json: str):
     data: dict = JSONDecoder().decode(json)
-    item = ToDoItem(task_id=data.get('id'), task_name=data.get('task_name'), task_description=data.get('task_description'), task_state=data.get('task_state'))
+    item = ToDoItem(task_id=data.get('id'), task_name=data.get('task_name'), task_description=data.get('task_description'), task_state=data.get('task_state') == "DONE")
     return item
