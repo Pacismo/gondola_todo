@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpRequest, HttpResponseBadRequest
+from django.http import HttpResponse, HttpRequest, HttpResponseBadRequest, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from json import JSONEncoder, JSONDecoder
@@ -41,6 +41,9 @@ def mark_task(request: HttpRequest):
     if state != "TODO" and state != "DONE":
         return HttpResponseBadRequest("Expected state to be either \"TODO\" or \"DONE\"")
 
+    if not ToDoItem.objects.contains(task_id=tid):
+        return Http404("Object does not exist")
+
     task = ToDoItem.objects.get(task_id=tid)
     task.task_state = state == "DONE"
     task.save()
@@ -54,6 +57,9 @@ def remove_task(request: HttpRequest):
         tid: int | None = JSONDecoder().decode(str(request.body, 'utf-8')).get('id')
         if tid is None:
             return HttpResponseBadRequest("Expected an ID, got None")
+
+        if not ToDoItem.objects.exists(task_id=tid):
+            return Http404("Object does not exist")
 
         ToDoItem.objects.get(task_id=tid).delete()
 
