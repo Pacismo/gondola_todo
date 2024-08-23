@@ -8,12 +8,13 @@ The Python code under "/api" requires Django and Python3 to be installed. Django
 
 ```pwsh
 pip install django # Install the latest version of Django
+python manager.py startserver # Start the Django server (requires PWD to be web)
 ```
 
 The Typescript code under "/web" requires Node.JS to be installed.
 
 ```pwsh
-npm install # Install dependencies
+npm install # Install dependencies (PWD must be api)
 npm run dev # Run the Next.JS/React app
 ```
 
@@ -28,6 +29,23 @@ Each item has a title, a description, and a state. IDs exist in the data to allo
 ### `api`
 
 This represents a Django backend that would allow me to add items to an (essentially global) TODO list.
+
+The schema of the `ToDoItem` table is as follows (although Django may implement it differently):
+
+```sql
+CREATE TABLE ToDoItem(
+    -- Automatically-incrementing and automatically-generated primary key
+    -- translated to `id` when transformed to JSON
+    task_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    task_name VARCHAR(255) NOT NULL,
+    task_description TEXT NOT NULL,
+    task_state BOOLEAN NOT NULL,
+);
+```
+
+Every endpoint has been marked CSRF_EXEMPT to allow the API to be interacted with through clients like [Thunder Client](https://thunderclient.com/), as the intention is that this would be used through the React frontend.
+
+You may access the administrator console using the username "admin" and the password "admin" to see the model data. It stores model data using SQLite.
 
 #### Endpoints
 
