@@ -78,7 +78,13 @@ The following schema is required in the body:
 }
 ```
 
-The response will simply be a success message.
+The response will contain the ID of the task if successful.
+
+```ts
+{
+    "id": number
+}
+```
 
 ##### POST `/todo/mark`
 
