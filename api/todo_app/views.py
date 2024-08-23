@@ -23,7 +23,7 @@ def add_task(request: HttpRequest):
 
     task = item_from_json(str(request.body, 'utf-8'))
     task.save()
-    return HttpResponse("Added task %s successfully!"%task)
+    return HttpResponse(JSONEncoder().encode({'id': task.task_id}))
 
 @require_POST
 @csrf_exempt
